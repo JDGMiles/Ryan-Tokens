@@ -1,0 +1,44 @@
+<!DOCTYPE html><html><body><center><canvas id="canvas" style="padding:0px 80px 0px 80px;"></canvas></center></body></html>
+
+<script type="text/javascript">
+var fps=40;
+var loop=100;
+var field={width:800, height:590};
+
+var background=new Image();
+background.src="Background.png";
+
+var thopter1=new Image();
+thopter1.src="Thopter1.png";
+
+var thopter3=new Image();
+thopter3.src="Thopter3.png";
+
+var canvas = document.getElementById("canvas"),
+    ctx = canvas.getContext("2d");
+
+canvas.width = field.width;
+canvas.height = field.height;
+
+var time=0;
+
+function frame(){
+
+	if(Math.floor(time/3)%2==0){thopter1.src="Thopter1a.png";}
+	else{thopter1.src="Thopter1.png";}
+
+	ctx.drawImage(background, 0, 0);
+	ctx.drawImage(thopter1, 582+Math.sin(time*12*Math.PI/loop)*1, 20+Math.sin(time*12*Math.PI/loop)*2);
+	ctx.drawImage(thopter3, 682+Math.cos(time*6*Math.PI/loop)*1.5+Math.sin(time*2*Math.PI/loop)*4, 290+Math.sin(time*2*Math.PI/loop)*19);
+
+	time++;
+
+	if(time>loop){time=0;}
+
+	setTimeout(frame,1000/fps);
+
+}
+
+frame();
+
+</script>
