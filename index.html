@@ -1,7 +1,7 @@
 <!DOCTYPE html><html><body><center><canvas id="canvas" style="padding:0px 80px 0px 80px;"></canvas></center></body></html>
 
 <script type="text/javascript">
-var fps=40;
+var fps=60;
 var loop=100;
 var field={width:800, height:590};
 
@@ -11,11 +11,24 @@ background.src="Background.png";
 var thopter1=new Image();
 thopter1.src="Thopter1.png";
 
+var thopter2=new Image();
+thopter2.src="Thopter2c.png";
+
 var thopter3=new Image();
 thopter3.src="Thopter3.png";
 
-var canvas = document.getElementById("canvas"),
-    ctx = canvas.getContext("2d");
+var canvas = document.getElementById("canvas"), ctx = canvas.getContext("2d");
+
+var a1=0.035;
+var ax=0.35;
+var a2=0.07;
+
+var b1=0.06;
+var b2=0.3;
+var startheight=158;
+var startdepth=625;
+var gust=80;
+var t2speed=1;
 
 canvas.width = field.width;
 canvas.height = field.height;
@@ -29,7 +42,27 @@ function frame(){
 
 	ctx.drawImage(background, 0, 0);
 	ctx.drawImage(thopter1, 582+Math.sin(time*12*Math.PI/loop)*1, 20+Math.sin(time*12*Math.PI/loop)*2);
-	ctx.drawImage(thopter3, 682+Math.cos(time*6*Math.PI/loop)*1.5+Math.sin(time*2*Math.PI/loop)*4, 290+Math.sin(time*2*Math.PI/loop)*19);
+
+	thopter2.src="Thopter2f.png";
+	if((t2speed*time)%loop>loop*a1){thopter2.src="Thopter2e.png";}
+	if((t2speed*time)%loop>loop*a1*2){thopter2.src="Thopter2d.png";}
+	if((t2speed*time)%loop>loop*a1*3){thopter2.src="Thopter2c.png";}
+	if((t2speed*time)%loop>loop*a1*4){thopter2.src="Thopter2b.png";}
+	if((t2speed*time)%loop>loop*a1*5){thopter2.src="Thopter2a.png";}
+	if((t2speed*time)%loop>loop*a1*6){thopter2.src="Thopter2.png";}
+	if((t2speed*time)%loop>loop*(ax+a2)){thopter2.src="Thopter2a.png";}
+	if((t2speed*time)%loop>loop*(ax+a2*2)){thopter2.src="Thopter2b.png";}
+	if((t2speed*time)%loop>loop*(ax+a2*3)){thopter2.src="Thopter2c.png";}
+	if((t2speed*time)%loop>loop*(ax+a2*4)){thopter2.src="Thopter2d.png";}
+	if((t2speed*time)%loop>loop*(ax+a2*5)){thopter2.src="Thopter2e.png";}
+	if((t2speed*time)%loop>loop*(ax+a2*6)){thopter2.src="Thopter2f.png";}
+
+	if((t2speed*time)%loop>b2*loop){ctx.drawImage(thopter2, startdepth, startheight-gust+ gust*( Math.sin(Math.PI*(((t2speed*time)%loop)-b2*loop)/((1-b2)*loop)-Math.PI/2)+1)/2 );}
+	else if((t2speed*time)%loop>b1*loop){ctx.drawImage(thopter2, startdepth, startheight- gust*(Math.sin(Math.PI*(((t2speed*time)%loop)-b1*loop)/((b2-b1)*loop)-Math.PI/2)+1)/2 );}
+	else{ctx.drawImage(thopter2, startdepth, startheight);}
+
+
+	ctx.drawImage(thopter3, 682+Math.cos(time*6*Math.PI/loop)*1.5+Math.sin(time*2*Math.PI/loop)*4, 295+Math.sin(time*2*Math.PI/loop)*29);
 
 	time++;
 
